@@ -1,0 +1,17 @@
+var _utils = require('./utils');
+var _cursor = require('./cursor');
+var _item = require('./item');
+// Preload images and fonts
+Promise.all([_utils.preloadImages('.item__img, .content__img'), _utils.preloadFonts('ytb6dpl')]).then(() => {
+  // remove loader (loading class)
+  document.body.classList.remove('loading');
+  // initialize custom cursor
+  const cursor = new _cursor.Cursor(document.querySelector('.cursor'));
+  let itemsArr = [];
+  [...document.querySelectorAll('.items > .item')].forEach(item => itemsArr.push(new _item.Item(item, itemsArr)));
+  // mouse effects on all links and others
+  [...document.querySelectorAll('a, .unbutton')].forEach(link => {
+    link.addEventListener('mouseenter', () => cursor.enter());
+    link.addEventListener('mouseleave', () => cursor.leave());
+  });
+});
