@@ -63,26 +63,14 @@ export class MagneticFx {
             y: this.scrollVal.y - window.scrollY
         };
         
-        // calculate the distance from the mouse to the center of the button
-        const points = {
-            x1: mousepos.x,
-            y1: mousepos.y,
-            x2: scrollDiff.x + this.rect.left + this.rect.width/2,
-            y2: scrollDiff.y + this.rect.top + this.rect.height/2,
-        };
-        const distanceMouseButton = distance(points.x1, points.y1, points.x2, points.y2);
-        
         // new values for the translations and scale
         this.renderedStyles['tx'].current = (mousepos.x - (scrollDiff.x + this.rect.left + this.rect.width/2))*.3;
         this.renderedStyles['ty'].current = (mousepos.y - (scrollDiff.y + this.rect.top + this.rect.height/2))*.3;
         
-        if ([...this.DOM.el.parentNode.parentNode.children].indexOf(this.DOM.el.parentNode) === 0)
-
         for (const key in this.renderedStyles ) {
             this.renderedStyles[key].previous = lerp(this.renderedStyles[key].previous, this.renderedStyles[key].current, this.renderedStyles[key].amt);
         }
         
-        //this.DOM.el.style.transform = `translate3d(${this.renderedStyles['tx'].previous}px, ${this.renderedStyles['ty'].previous}px, 0)`;
         gsap.set(this.DOM.el, {
             x: this.renderedStyles['tx'].previous,
             y: this.renderedStyles['ty'].previous
